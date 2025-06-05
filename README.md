@@ -1,74 +1,78 @@
-# FastAPI Testing Project
+# FastAPI Best Practices Skeleton
 
-A modern FastAPI project with best practices, testing, and development tools.
+A minimal, modular FastAPI project with best practices for structure, database, and testing.
 
 ## Features
 
-- FastAPI with modern Python features
-- Pydantic models for data validation
-- Comprehensive testing setup
-- Development tools (black, isort, flake8, mypy)
-- Environment variable management
-- API documentation with Swagger UI
-
-## Setup
-
-1. Create a virtual environment:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-```
-
-2. Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-3. Run the development server:
-
-```bash
-uvicorn app.main:app --reload
-```
-
-4. Access the API documentation:
-
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
-
-## Development
-
-- Format code: `black .`
-- Sort imports: `isort .`
-- Lint code: `flake8`
-- Type checking: `mypy .`
-- Run tests: `pytest`
+- **FastAPI** app with modular routers (`/auth`, `/posts`)
+- **SQLAlchemy** models and PostgreSQL support
+- **Pydantic** schemas for data validation
+- **Alembic** for database migrations
+- **Pytest** and **httpx** for async testing
+- **Ruff** for linting
+- Configurable logging
 
 ## Project Structure
 
 ```
-.
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── api/
-│   │   ├── __init__.py
-│   │   └── v1/
-│   │       ├── __init__.py
-│   │       └── endpoints/
-│   ├── core/
-│   │   ├── __init__.py
-│   │   └── config.py
-│   ├── models/
-│   │   └── __init__.py
-│   └── schemas/
-│       └── __init__.py
-├── tests/
-│   ├── __init__.py
-│   └── test_api/
-├── .env.example
-├── .gitignore
-├── pyproject.toml
-└── requirements.txt
+src/
+  main.py           # FastAPI app entrypoint
+  database.py       # SQLAlchemy setup
+  auth/             # Auth module (router, models, schemas)
+  posts/            # Posts module (router, models, schemas)
+alembic/            # Alembic migrations
+tests/              # Pytest tests for each module
+requirements/       # Dependency files
+logging.ini         # Logging config
+alembic.ini         # Alembic config
 ```
+
+## Quickstart
+
+1. **Install dependencies**
+
+   ```bash
+   pip install -r requirements/dev.txt
+   ```
+
+2. **Set up the database**
+
+   - Default: PostgreSQL (see `src/database.py` and `alembic.ini` for connection strings)
+   - Create your DB and update `DATABASE_URL` env var if needed
+
+3. **Run migrations**
+
+   ```bash
+   alembic upgrade head
+   ```
+
+4. **Run the app**
+
+   ```bash
+   uvicorn src.main:app --reload
+   ```
+
+5. **Run tests**
+   ```bash
+   pytest
+   ```
+
+## API Overview
+
+- **/auth/ping**: Health check for auth
+- **/posts/ping**: Health check for posts
+
+## Models
+
+- **User**: `id`, `username`
+- **Post**: `id`, `title`
+
+## Dev & Linting
+
+- Lint: `ruff .`
+- Logging: see `logging.ini` for format and level
+
+## Migrations
+
+- Alembic scripts in `alembic/versions/`
+- Config in `alembic.ini` and `alembic/env.py`
