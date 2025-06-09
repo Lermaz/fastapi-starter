@@ -7,4 +7,11 @@ htmlcov
 .cache
 .venv
 
+.pytest_cache
+.ruff_cache
+
 .env
+
+[Cursor]
+.cursor
+.cursorrules
